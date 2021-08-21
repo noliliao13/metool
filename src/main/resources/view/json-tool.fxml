@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane fx:id="ap" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+    fx:controller="com.metool.controller.JsonToolController"
+    stylesheets="@../css/json-tool.css"
+>
+    <SplitPane fx:id="sp"
+        AnchorPane.bottomAnchor="10"
+        AnchorPane.leftAnchor="10"
+        AnchorPane.rightAnchor="10"
+        AnchorPane.topAnchor="10"
+        dividerPositions="0.5"
+    >
+        <items>
+            <AnchorPane>
+                <TextArea
+                    fx:id="sourceJson"
+                    promptText="输入需要格式化的字符串"
+                    AnchorPane.bottomAnchor="0"
+                    AnchorPane.leftAnchor="10"
+                    AnchorPane.rightAnchor="10"
+                    AnchorPane.topAnchor="0"
+                />
+            </AnchorPane>
+            <AnchorPane>
+                <StackPane
+                    alignment="TOP_RIGHT"
+                    AnchorPane.bottomAnchor="0"
+                    AnchorPane.leftAnchor="10"
+                    AnchorPane.rightAnchor="10"
+                    AnchorPane.topAnchor="0"
+                >
+                    <children>
+                        <TextArea
+                            fx:id="targetJson"
+                            promptText="输入需要格式化的字符串"
+                            AnchorPane.bottomAnchor="0"
+                            AnchorPane.leftAnchor="10"
+                            AnchorPane.rightAnchor="10"
+                            AnchorPane.topAnchor="0"
+                            editable="false"
+                        />
+                        <Button text="复制" mnemonicParsing="false" onAction="#copyValue" />
+
+                    </children>
+                </StackPane>
+            </AnchorPane>
+        </items>
+    </SplitPane>
+</AnchorPane>

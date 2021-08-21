@@ -1,0 +1,9 @@
+.split-pane{
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+
+}
+.button {
+    -fx-background-insets: 0;
+    -fx-base: yellow;
+}

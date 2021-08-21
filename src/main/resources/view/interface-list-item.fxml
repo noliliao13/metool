@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.CheckBox?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.metool.controller.InterfaceListItemController"
+          hgap="8"
+          vgap="8"
+          stylesheets="/css/interface-item.css"
+>
+    <padding><Insets top="20" bottom="10" left="40" right="40" /> </padding>
+
+    <children>
+        <HBox spacing="10" GridPane.rowIndex="0"  GridPane.columnIndex="0" alignment="CENTER_LEFT">
+            <CheckBox fx:id="checkApi"/>
+            <Label text="接口名称：" />
+            <TextField fx:id="apiName" promptText="接口名称"/>
+            <Label text="路径：" />
+            <Text fx:id="apiPath" />
+        </HBox>
+
+        <HBox spacing="10" GridPane.rowIndex="1"  GridPane.columnIndex="0" GridPane.halignment="LEFT">
+            <ComboBox fx:id="chooseGroup" visible="false" />
+            <ComboBox fx:id="chooseProject" visible="false" />
+            <ComboBox fx:id="chooseInterfaceType" visible="false" />
+            <Button fx:id="btnPushYapi" text="发布到YAPI" onAction="#pushToYapi" mnemonicParsing="false" visible="false" />
+        </HBox>
+        <AnchorPane GridPane.rowIndex="1"  GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+            <HBox spacing="10"
+                  AnchorPane.bottomAnchor="0"
+                  AnchorPane.leftAnchor="0"
+                  AnchorPane.rightAnchor="0"
+                  AnchorPane.topAnchor="0"
+                  alignment="CENTER_RIGHT"
+            >
+                <children>
+                    <Label text="请求方式：" />
+                    <Text fx:id="apiMethod" />
+                    <Label text="所属Controller类：" />
+                    <Text fx:id="apiController" />
+                </children>
+            </HBox>
+        </AnchorPane>
+
+        <VBox GridPane.rowIndex="2"  GridPane.columnIndex="0">
+            <children>
+                <HBox>
+                    <children>
+                        <Label text="请求参数体：" />
+                        <Button styleClass="btn-format" text="格式化参数" onAction="#formatRequestParameter"/>
+                    </children>
+                </HBox>
+                <TextArea fx:id="requestBody" prefHeight="120" editable="false"  wrapText="true"/>
+            </children>
+        </VBox>
+        <VBox GridPane.rowIndex="2"  GridPane.columnIndex="1">
+            <children>
+                <HBox>
+                    <children>
+                        <Label text="响应参数体：" />
+                        <Button styleClass="btn-format" text="格式化参数" onAction="#formatResponseParameter"/>
+                    </children>
+                </HBox>
+                <TextArea fx:id="responseBody" prefHeight="120" editable="false" wrapText="true"/>
+            </children>
+        </VBox>
+    </children>
+
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0"  vgrow="SOMETIMES" />
+    </rowConstraints>
+
+</GridPane>

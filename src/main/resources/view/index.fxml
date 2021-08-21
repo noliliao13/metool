@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import com.metool.constant.MenuEnum?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml"
+            fx:id="indexPane"
+            fx:controller="com.metool.controller.IndexController"
+            stylesheets="@../css/index.css"
+>
+
+    <fx:define>
+        <MenuEnum fx:id="menuJson" fx:factory="getJson" />
+    </fx:define>
+    <fx:define>
+        <MenuEnum fx:id="menuDate" fx:factory="getDate" />
+    </fx:define>
+    <fx:define>
+        <MenuEnum fx:id="menuInterface" fx:factory="getInterface" />
+    </fx:define>
+    <fx:define>
+        <MenuEnum fx:id="menuOther" fx:factory="getOther" />
+    </fx:define>
+   <top>
+      <ToolBar prefHeight="40.0" prefWidth="-Infinity" BorderPane.alignment="CENTER">
+        <items>
+            <Button mnemonicParsing="false" text="${menuJson.name}" onAction="#showOk"/>
+            <Button mnemonicParsing="false" text="${menuInterface.name}" onAction="#showOk"/>
+            <!--<Button mnemonicParsing="false" text="${menuDate.name}" onAction="#showOk"/>
+            <Button mnemonicParsing="false" text="${menuOther.name}" onAction="#showOk"/>-->
+        </items>
+      </ToolBar>
+   </top>
+
+</BorderPane>

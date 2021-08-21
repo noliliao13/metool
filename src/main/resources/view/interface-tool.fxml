@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+    fx:controller="com.metool.controller.InterfaceToolController"
+    stylesheets="@../css/interface-tool.css"
+>
+    <top>
+        <AnchorPane>
+            <VBox
+                AnchorPane.bottomAnchor="0"
+                AnchorPane.leftAnchor="20"
+                AnchorPane.rightAnchor="20"
+                AnchorPane.topAnchor="20"
+            >
+                <HBox prefHeight="50" prefWidth="-Infinity" spacing="15" >
+                    <children>
+                        <Button text="选择工程目录" onAction="#chooseProjectDir" />
+                        <TextField fx:id="projectDir" prefWidth="400" />
+                        <TextField fx:id="controllerName" prefWidth="200"  promptText="controller文件" />
+                        <TextField fx:id="yapiBaseUrl" prefWidth="200" promptText="请输入YAPI的地址" />
+                        <TextField fx:id="yapiToken" prefWidth="400" promptText="请输入YAPI的TOKEN" />
+
+                        <Button fx:id="btnScanningInterface" styleClass="btn-scanning-interface" text="扫描接口" visible="false" />
+                        <Label fx:id="scanningCount" />
+                    </children>
+                </HBox>
+                <HBox fx:id="batchOperationArea" prefHeight="50" prefWidth="-Infinity" spacing="15" visible="false" managed="false">
+                    <children>
+                        <Label text="批量配置"/>
+                        <ComboBox fx:id="chooseGroup" visible="false" />
+                        <ComboBox fx:id="chooseProject" visible="false" />
+                        <ComboBox fx:id="chooseInterfaceType" visible="false" />
+                        <Button fx:id="btnPushYapi" text="批量发布到YAPI" onAction="#pushToYapi" styleClass="btn-push-interface" mnemonicParsing="false" visible="false" />
+
+                    </children>
+                </HBox>
+            </VBox>
+
+        </AnchorPane>
+    </top>
+    <center>
+        <AnchorPane>
+            <ListView fx:id="interfaceList"
+                      AnchorPane.bottomAnchor="0"
+                      AnchorPane.leftAnchor="20"
+                      AnchorPane.rightAnchor="20"
+                      AnchorPane.topAnchor="0"
+            >
+
+            </ListView>
+        </AnchorPane>
+    </center>
+    <bottom>
+        <HBox prefHeight="30" prefWidth="-Infinity" spacing="15">
+
+        </HBox>
+    </bottom>
+</BorderPane>

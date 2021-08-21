@@ -1,0 +1,12 @@
+.button {
+    -fx-background-insets: 0;
+}
+.label{
+    -fx-label-padding: 5;
+}
+.btn-scanning-interface{
+ -fx-base: green;
+}
+.btn-push-interface{
+ -fx-base: orange;
+}
