@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 @Data
 public class ParameterTypeInfo implements Serializable {
+    private String reqPath;
+    private String resPath;
     private String reqType;
     private String resType;
     private Boolean isReqList = false;

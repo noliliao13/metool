@@ -18,10 +18,11 @@
                 <HBox prefHeight="50" prefWidth="-Infinity" spacing="15" >
                     <children>
                         <Button text="选择工程目录" onAction="#chooseProjectDir" />
-                        <TextField fx:id="projectDir" prefWidth="400" />
-                        <TextField fx:id="controllerName" prefWidth="200"  promptText="controller文件" />
+                        <TextField fx:id="projectDir" prefWidth="200" />
+                        <TextField fx:id="controllerName" prefWidth="200"  promptText="忽略的controller文件" />
+                        <TextField fx:id="dirName" prefWidth="200"  promptText="忽略的文件夹" />
                         <TextField fx:id="yapiBaseUrl" prefWidth="200" promptText="请输入YAPI的地址" />
-                        <TextField fx:id="yapiToken" prefWidth="400" promptText="请输入YAPI的TOKEN" />
+                        <TextField fx:id="yapiToken" prefWidth="200" promptText="请输入YAPI的TOKEN" />
 
                         <Button fx:id="btnScanningInterface" styleClass="btn-scanning-interface" text="扫描接口" visible="false" />
                         <Label fx:id="scanningCount" />

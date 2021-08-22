@@ -42,6 +42,8 @@ public class InterfaceToolController implements Initializable {
     @FXML
     private TextField controllerName;
     @FXML
+    private TextField dirName;
+    @FXML
     private Label scanningCount;
     @FXML
     private ListView interfaceList;
@@ -283,7 +285,10 @@ public class InterfaceToolController implements Initializable {
                 String name = controllerName.getText().replace(".java","")+".java";
                 controllerFiles = controllerFiles.stream().filter(item -> item.endsWith(name)).collect(Collectors.toList());
             }
-
+            if(StringUtils.isNotBlank(dirName.getText())){
+                String name = dirName.getText();
+                controllerFiles = controllerFiles.stream().filter(item -> !item.contains(name)).collect(Collectors.toList());
+            }
             if(CollectionUtils.isEmpty(controllerFiles)){
                 return result;
             }
@@ -366,7 +371,7 @@ public class InterfaceToolController implements Initializable {
             result.getItems().setType("object");
         }
 
-        String absolutePath = getAbsolutePath(path);
+        String absolutePath = path;//getAbsolutePath(path);
         if(StringUtils.isBlank(absolutePath)){
             return result;
         }
@@ -426,8 +431,7 @@ public class InterfaceToolController implements Initializable {
         if(mp.find()){
             String parentPath = mp.group();
             parentPath = parentPath.split("\\s+")[parentPath.split("\\s+").length-1];
-            parentPath = getPackagePath(str,parentPath);
-            String parentPathAbs = getAbsolutePath(parentPath);
+            String parentPathAbs = getTypePath(str,parentPath);;
             List<PropertyDetail> list = getClassProperty(parentPathAbs);
             if(CollectionUtils.isNotEmpty(list)){
                 result.addAll(list);
@@ -444,16 +448,8 @@ public class InterfaceToolController implements Initializable {
             propertyDetail.setType(array[1]);
             propertyDetail.setName(array[2]);
             if(TypeEnum.getByJavaType(propertyDetail.getType()) == null){
-                Matcher mo = Pattern.compile("(List|Set)\\<\\w+\\>").matcher(propertyDetail.getType());
-                String packagePath = "";
-                if(mo.find()){
-                    String t = mo.group();
-                    packagePath = getPackagePath(str,t.replaceAll("List|Set|\\<|\\>|\\s+",""));
-                    propertyDetail.setIsArray(true);
-                }else{
-                    packagePath = getPackagePath(str,propertyDetail.getType());
-                }
-                propertyDetail.setPath(packagePath);
+                String path = getTypePath(str,propertyDetail.getType().replaceAll("List|Set|\\<|\\>|\\s+",""));
+                propertyDetail.setPath(path);
             }
             result.add(propertyDetail);
         }
@@ -482,22 +478,6 @@ public class InterfaceToolController implements Initializable {
             }
         }
         return "";
-    }
-
-    private String getPackagePath(String str,String name) {
-        Matcher mp = Pattern.compile("(\\w+\\.)+"+name).matcher(str);
-        String parentPath = "";
-        if(mp.find()){
-            parentPath = mp.group();
-        }else{
-            Pattern rp2 = Pattern.compile("package.+?;");
-            Matcher mp2 = rp2.matcher(str);
-            if(mp2.find()){
-                parentPath = mp2.group().split("\\s+")[1];
-                parentPath = parentPath.substring(0,parentPath.length()-1)+"."+name;
-            }
-        }
-       return parentPath;
     }
 
     String fileSeparator = System.getProperty("file.separator");
@@ -581,25 +561,26 @@ public class InterfaceToolController implements Initializable {
         if(reqType.split("\\(").length == 2){
             reqType = reqType.split("\\(")[1];
         }
-
         if(StringUtils.isNotBlank(reqType)){
             if(reqType.startsWith("List") || reqType.startsWith("Set")){
                 result.setIsReqList(true);
             }
             reqType = reqType.replaceAll("List|Set|\\<|\\>","");
             if(TypeEnum.getByJavaType(reqType) == null){
-                Pattern rp = Pattern.compile("(\\w+\\.)+"+reqType);
+                /*Pattern rp = Pattern.compile("(\\w+\\.)+"+reqType);
                 Matcher mp = rp.matcher(s);
                 if(mp.find()){
                     reqType = mp.group();
                 }else{
-                    Pattern rp2 = Pattern.compile("package.+?;");
+                   Pattern rp2 = Pattern.compile("package.+?;");
                     Matcher mp2 = rp2.matcher(s);
                     if(mp2.find()){
-                        reqType = mp2.group().split("\\s+")[1];
-                        reqType = reqType.substring(0,reqType.length()-1);
+                        String temp  = mp2.group().split("\\s+")[1];
+                        reqType = temp.substring(0,reqType.length()-1)+"."+reqType;
                     }
-                }
+
+                }*/
+                reqType = getTypePath(s,reqType);
             }
         }
 
@@ -610,7 +591,7 @@ public class InterfaceToolController implements Initializable {
             resType = resType.replaceAll("List|Set|\\<|\\>","");
 
             if(TypeEnum.getByJavaType(resType) == null){
-                Pattern rp = Pattern.compile("(\\w+\\.)+"+resType);
+                /*Pattern rp = Pattern.compile("(\\w+\\.)+"+resType);
                 Matcher mp = rp.matcher(s);
                 if(mp.find()){
                     resType = mp.group();
@@ -618,10 +599,11 @@ public class InterfaceToolController implements Initializable {
                     Pattern rp2 = Pattern.compile("package.+?;");
                     Matcher mp2 = rp2.matcher(s);
                     if(mp2.find()){
-                        resType = mp2.group().split("\\s+")[1];
-                        resType = resType.substring(0,resType.length()-1);
+                        String temp  = mp2.group().split("\\s+")[1];
+                        resType = temp.substring(0,resType.length()-1)+"."+resType;
                     }
-                }
+                }*/
+                resType = getTypePath(s,resType);
             }
 
         }
@@ -630,6 +612,63 @@ public class InterfaceToolController implements Initializable {
         return result;
     }
 
+    private String getTypePath(String s,String reqType) {
+        String result = "";
+        //1 找出同名的所有文件
+        List<String> files = findFilesByName(projectDir.getText(),reqType+".java");
+        s:for (String file : files) {
+            //2 匹配 impoer xxx.*
+            Matcher mi = Pattern.compile("import\\s+((\\w|\\d)|\\.)+?\\.\\*\\s*;").matcher(s);
+            String st = file.replaceAll("\\"+fileSeparator,"\\.");
+            while (mi.find()){
+                String mis = mi.group().replaceAll("import|\\s|;|\\*","");
+                if(st.contains(mis)){
+                    result = file;
+                    break s;
+                }
+            }
+            //3 匹配 当前包
+            Pattern rp2 = Pattern.compile("package.+?;");
+            Matcher mp2 = rp2.matcher(s);
+            if(mp2.find()){
+                String temp  = mp2.group().split("\\s+")[1];
+                temp = temp.substring(0,reqType.length()-1);
+                if(st.contains(temp)){
+                    result = file;
+                    break s;
+                }
+            }
+        }
+        return result;
+    }
+
+    private List<String> findFilesByName(String root,String name) {
+        File parent = new File(root);
+        if(parent.isDirectory()){
+            return FileUtil.loopFiles(root, new FileFilter() {
+                @Override
+                public boolean accept(File pathname) {
+                    String s =  pathname.getName();
+                    return s.endsWith(name);
+                }
+            }).stream().map(item -> item.getPath()).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    public static void main(String[] args) {
+        String s = "import com.test.component.KafkaProducer;" +
+                "import com.test.entity.* ;" +
+                "import com.test.entity2.*;" +
+                "import org.springframework.beans.factory.annotation.Autowired;" +
+                "import org.springframework.web.bind.annotation.PostMapping;" +
+                "import org.springframework.web.bind.annotation.RequestMapping;\n" +
+                "import org.springframework.web.bind.annotation.RestController;\n";
+        Matcher m = Pattern.compile("import\\s+((\\w|\\d)|\\.)+?\\.\\*\\s*;").matcher(s);
+        while (m.find()){
+            System.out.println(m.group());
+        }
+    }
     private String getRootPath(String str) {
         if(StringUtils.isBlank(str)){
             return "";
@@ -641,10 +680,6 @@ public class InterfaceToolController implements Initializable {
             return temp = temp.replaceAll("@RequestMapping|\\(|\\)|\"","").trim();
         }
         return "";
-    }
-
-    private static String removeWrap(String str) {
-        return str = str.replaceAll("\\n","");
     }
 
     private static String remoreRemake(String str) {
