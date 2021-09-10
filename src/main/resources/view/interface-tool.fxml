@@ -36,6 +36,8 @@
                                 <Label text="操作:"/>
                                 <Label text="批量配置分类"/>
                                 <ComboBox fx:id="chooseInterfaceType" />
+                                <Label text="批量设置接口状态"/>
+                                <ComboBox fx:id="chooseInterfaceStatus" />
                                 <Button text="批量发布" onAction="#pushToYapi" styleClass="btn-push-interface" mnemonicParsing="false"  />
                             </children>
                         </HBox>
@@ -65,6 +67,7 @@
             >
                 <columns>
                     <TableColumn text="选择" fx:id="choose" minWidth="80"/>
+                    <TableColumn text="状态" fx:id="statusCB" minWidth="80"/>
                     <TableColumn text="CONTROLLER类" fx:id="controllerClass" minWidth="200" />
                     <TableColumn text="接口分类" fx:id="interfaceCat" minWidth="100" />
                     <TableColumn text="接口名称" fx:id="interfaceName" minWidth="100" />

@@ -82,9 +82,13 @@ public class InterfaceToolController implements Initializable {
     @FXML
     private ComboBox<String> chooseInterfaceType;
     @FXML
+    private ComboBox<String> chooseInterfaceStatus;
+    @FXML
     private BorderPane batchOperationArea;
     @FXML
     private TableColumn choose;
+    @FXML
+    private TableColumn statusCB;
     @FXML
     private TableColumn interfaceCat;
     @FXML
@@ -138,6 +142,29 @@ public class InterfaceToolController implements Initializable {
                 String name = chooseInterfaceType.getItems().get(newValue.intValue());
                 for (InterfaceDetail item : interfaceList.getItems()) {
                     item.getCatType().setValue(name);
+                }
+                for (InterfaceDetail interfaceDetail : cacheInterfaceList) {
+                    interfaceDetail.getCatType().setValue(name);
+                }
+            }
+        });
+        chooseInterfaceStatus.setItems(FXCollections.observableArrayList(Arrays.asList("请选择状态","未完成","已完成")));
+        chooseInterfaceStatus.setValue("请选择状态");
+        chooseInterfaceStatus.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if(newValue.intValue() < 0){
+                    return;
+                }
+                String value = chooseInterfaceStatus.getItems().get(newValue.intValue());
+                if(value.equals("请选择状态")){
+                    return;
+                }
+                for (InterfaceDetail item : interfaceList.getItems()) {
+                    item.getStatusCB().setValue(value);
+                }
+                for (InterfaceDetail item : cacheInterfaceList) {
+                    item.getStatusCB().setValue(value);
                 }
             }
         });
@@ -297,6 +324,7 @@ public class InterfaceToolController implements Initializable {
                                 catName = "请选择分类";
                             }
                             item.getTitleField().setText(item.getTitle());
+                            item.getStatusCB().setValue(item.getStatus().equals("done") ? "已完成" : "未完成");
                             item.getCatType().setValue(catName);
                             addInterfaceVO.setInterfaceDetail(item);
                             BeanUtil.copyProperties(item,addInterfaceVO);
@@ -383,13 +411,14 @@ public class InterfaceToolController implements Initializable {
         });
         choose.setGraphic(selectAll);
         choose.prefWidthProperty().bind(interfaceList.widthProperty().multiply(0.05));
+        statusCB.prefWidthProperty().bind(interfaceList.widthProperty().multiply(0.05));
         interfaceCat.prefWidthProperty().bind(interfaceList.widthProperty().multiply(0.15));
         interfaceName.prefWidthProperty().bind(interfaceList.widthProperty().multiply(0.15));
         reqMethod.prefWidthProperty().bind(interfaceList.widthProperty().multiply(0.05));
         interfacePath.prefWidthProperty().bind(interfaceList.widthProperty().multiply(0.15));
         reqDataType.prefWidthProperty().bind(interfaceList.widthProperty().multiply(0.05));
         controllerClass.prefWidthProperty().bind(interfaceList.widthProperty().multiply(0.1));
-        operation.prefWidthProperty().bind(interfaceList.widthProperty().multiply(0.25));
+        operation.prefWidthProperty().bind(interfaceList.widthProperty().multiply(0.2));
 
         choose.setCellValueFactory(new PropertyValueFactory<InterfaceDetail,CheckBox>("checkBox"));
         interfaceCat.setCellValueFactory(new PropertyValueFactory<InterfaceDetail,ComboBox>("catType"));
@@ -397,6 +426,14 @@ public class InterfaceToolController implements Initializable {
         reqMethod.setCellValueFactory(new PropertyValueFactory<InterfaceDetail,String>("method"));
         interfacePath.setCellValueFactory(new PropertyValueFactory<InterfaceDetail,String>("path"));
         controllerClass.setCellValueFactory(new PropertyValueFactory<InterfaceDetail,String>("controller"));
+        statusCB.setCellValueFactory(new PropertyValueFactory<InterfaceDetail,ComboBox>("statusCB"));
+//        status.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<InterfaceDetail,String>, ObservableValue>() {
+//            @Override
+//            public ObservableValue<String> call(TableColumn.CellDataFeatures<InterfaceDetail,String> param) {
+//                InterfaceDetail d = param.getValue();
+//                return new ReadOnlyObjectWrapper<String>(d.getStatus().equals("done") ? "已完成" : "未完成");
+//            }
+//        });
         reqDataType.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<InterfaceDetail,String>, ObservableValue>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<InterfaceDetail,String> param) {
@@ -501,6 +538,7 @@ public class InterfaceToolController implements Initializable {
                                                entity.setCatid(idAndName.getId());
                                            }
                                            entity.setTitle(entity.getTitleField().getText());
+                                           entity.setStatus(entity.getStatusCB().getValue().toString());
                                            yapiService.pushApi(baseUrl,token,entity);
                                            ToastBarToasterService service = new ToastBarToasterService();
                                            service.initialize();
@@ -534,6 +572,7 @@ public class InterfaceToolController implements Initializable {
                             item.setCatid(idAndName.getId());
                         }
                         item.setTitle(item.getTitleField().getText());
+                        item.setStatus(item.getStatusCB().getValue().toString());
                         return item;
                     }).collect(Collectors.toList());
                     if(list.size() == 0){
@@ -571,10 +610,10 @@ public class InterfaceToolController implements Initializable {
         for (InterfaceDetail v :list) {
             if(v.getCheckBox().isSelected()){
                 if(v.getCatid().equals(0)){
-                    throw new Exception("请正确选择接口分类");
+                    throw CustomException.error("请正确选择接口分类");
                 }
                 if(StringUtils.isBlank(v.getTitle())){
-                    throw new Exception("请正确填写接口标题");
+                    throw CustomException.error("请正确填写接口标题");
                 }
             }
         }
@@ -589,7 +628,4 @@ public class InterfaceToolController implements Initializable {
         }
     }
 
-    public void editChoose(TableColumn.CellEditEvent cellEditEvent) {
-        System.out.println(cellEditEvent.getNewValue());
-    }
 }
