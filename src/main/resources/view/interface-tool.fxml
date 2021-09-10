@@ -3,9 +3,11 @@
 <?import javafx.scene.layout.*?>
 
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.TextFlow?>
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-    fx:controller="com.metool.controller.InterfaceToolController"
-    stylesheets="@../css/interface-tool.css"
+            fx:controller="com.metool.controller.InterfaceToolController"
+            stylesheets="@../css/interface-tool.css"
 >
     <top>
         <AnchorPane>
@@ -19,39 +21,60 @@
                     <children>
                         <Button text="选择工程目录" onAction="#chooseProjectDir" />
                         <TextField fx:id="projectDir" prefWidth="200" />
-                        <TextField fx:id="controllerName" prefWidth="200"  promptText="忽略的controller文件" />
+                        <TextField fx:id="controllerName" prefWidth="200"  promptText="只包含的controller文件" />
                         <TextField fx:id="dirName" prefWidth="200"  promptText="忽略的文件夹" />
+                        <TextField fx:id="rejectControllerName" prefWidth="200"  promptText="排除的controller文件" />
                         <TextField fx:id="yapiBaseUrl" prefWidth="200" promptText="请输入YAPI的地址" />
                         <TextField fx:id="yapiToken" prefWidth="200" promptText="请输入YAPI的TOKEN" />
-
-                        <Button fx:id="btnScanningInterface" styleClass="btn-scanning-interface" text="扫描接口" visible="false" />
-                        <Label fx:id="scanningCount" />
+                        <Button fx:id="btnScanning" styleClass="btn-scanning-interface" text="扫描接口" onAction="#btnScanningInterface" disable="true" />
                     </children>
                 </HBox>
-                <HBox fx:id="batchOperationArea" prefHeight="50" prefWidth="-Infinity" spacing="15" visible="false" managed="false">
-                    <children>
-                        <Label text="批量配置"/>
-                        <ComboBox fx:id="chooseGroup" visible="false" />
-                        <ComboBox fx:id="chooseProject" visible="false" />
-                        <ComboBox fx:id="chooseInterfaceType" visible="false" />
-                        <Button fx:id="btnPushYapi" text="批量发布到YAPI" onAction="#pushToYapi" styleClass="btn-push-interface" mnemonicParsing="false" visible="false" />
-
-                    </children>
-                </HBox>
+                <BorderPane fx:id="batchOperationArea" visible="false" managed="false">
+                    <center>
+                        <HBox  prefHeight="50" spacing="15">
+                            <children>
+                                <Label text="操作:"/>
+                                <Label text="批量配置分类"/>
+                                <ComboBox fx:id="chooseInterfaceType" />
+                                <Button text="批量发布" onAction="#pushToYapi" styleClass="btn-push-interface" mnemonicParsing="false"  />
+                            </children>
+                        </HBox>
+                    </center>
+                    <right>
+                        <HBox prefHeight="50"  spacing="15">
+                            <children>
+                                <Label text="筛选:"/>
+                                <ComboBox fx:id="filterController" />
+                                <ComboBox fx:id="filterInterfaceType" />
+                                <Label fx:id="scanningCount" styleClass="scanningCountText"/>
+                            </children>
+                        </HBox>
+                    </right>
+                </BorderPane>
             </VBox>
 
         </AnchorPane>
     </top>
     <center>
         <AnchorPane>
-            <ListView fx:id="interfaceList"
+            <TableView fx:id="interfaceList"
                       AnchorPane.bottomAnchor="0"
                       AnchorPane.leftAnchor="20"
                       AnchorPane.rightAnchor="20"
                       AnchorPane.topAnchor="0"
             >
+                <columns>
+                    <TableColumn text="选择" fx:id="choose" minWidth="80"/>
+                    <TableColumn text="CONTROLLER类" fx:id="controllerClass" minWidth="200" />
+                    <TableColumn text="接口分类" fx:id="interfaceCat" minWidth="100" />
+                    <TableColumn text="接口名称" fx:id="interfaceName" minWidth="100" />
+                    <TableColumn text="请求方式" fx:id="reqMethod" minWidth="100" />
+                    <TableColumn text="接口路径" fx:id="interfacePath" minWidth="100" />
+                    <TableColumn text="请求数据类型" fx:id="reqDataType" minWidth="100" />
 
-            </ListView>
+                    <TableColumn text="操作" fx:id="operation" minWidth="100" />
+                </columns>
+            </TableView>
         </AnchorPane>
     </center>
     <bottom>

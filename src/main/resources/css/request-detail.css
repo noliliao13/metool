@@ -1,7 +1,8 @@
+.grid-pane{
+    -fx-background-color: red;
+
+}
 .button {
     -fx-background-insets: 0;
     -fx-base: yellow;
-}
-.btn-format{
-    -fx-base: #F5F5F5;
 }

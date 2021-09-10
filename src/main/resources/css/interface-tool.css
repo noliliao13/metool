@@ -8,5 +8,14 @@
  -fx-base: green;
 }
 .btn-push-interface{
- -fx-base: orange;
+ -fx-base: yellow;
+}
+.scanningCountText{
+    -fx-text-fill: green;
+}
+.table-row-cell{
+    -fx-cell-size: 40px;
+}
+.table-column{
+    -fx-alignment: CENTER;
 }

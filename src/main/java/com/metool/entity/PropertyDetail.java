@@ -13,6 +13,6 @@ public class PropertyDetail implements Serializable {
     private Boolean isArray = false;
     private String description;
     private Boolean isRequired = false;
-    //private JSON value;
-    //private Collection<JSON> list;
+    private Boolean isValid = false;
+    private String key;
 }

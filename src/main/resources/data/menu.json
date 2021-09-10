@@ -1,0 +1,24 @@
+[
+  {
+    "name": "数据工具",
+    "path": "",
+    "children": [
+      {
+        "name": "JSON格式化",
+        "path": "/view/json-tool.fxml",
+        "isMulti": true
+      }
+    ]
+  },
+  {
+    "name": "接口工具",
+    "path": "",
+    "children": [
+      {
+        "name": "接口生成",
+        "path": "/view/interface-tool.fxml",
+        "isMulti": true
+      }
+    ]
+  }
+]

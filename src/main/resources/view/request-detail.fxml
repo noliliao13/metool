@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.metool.controller.RequestDetailController"
+            stylesheets="@../css/request-detail.css"
+>
+
+    <GridPane
+        hgap="10"
+        AnchorPane.bottomAnchor="0"
+        AnchorPane.leftAnchor="0"
+        AnchorPane.rightAnchor="0"
+        AnchorPane.topAnchor="0"
+    >
+        <padding><Insets top="10" bottom="10" left="20" right="20" /></padding>
+        <children>
+            <VBox
+                spacing="10"
+                GridPane.rowIndex="0"
+                GridPane.columnIndex="0"
+                GridPane.columnSpan="1"
+                GridPane.hgrow="ALWAYS"
+                GridPane.vgrow="ALWAYS"
+            >
+                <HBox spacing="10">
+                    <Label text="数据类型:" />
+                    <Label fx:id="dataType" text="json" />
+                </HBox>
+                <TreeTableView fx:id="reqTreeTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TreeTableColumn fx:id="name" text="名称" minWidth="100" />
+                        <TreeTableColumn fx:id="type" text="类型" minWidth="100" />
+                        <TreeTableColumn fx:id="required" text="是否必填" minWidth="100" />
+                        <TreeTableColumn fx:id="defaultValue" text="默认值" minWidth="100" />
+                        <TreeTableColumn fx:id="remark" text="备注" minWidth="200" />
+                    </columns>
+                </TreeTableView>
+            </VBox>
+            <VBox
+                fx:id="jsonBox"
+                spacing="10"
+                GridPane.rowIndex="0"
+                GridPane.columnIndex="1"
+                GridPane.columnSpan="1"
+                GridPane.hgrow="ALWAYS"
+                GridPane.vgrow="ALWAYS"
+            >
+                <HBox spacing="10">
+                    <Label text="数据示例型:">
+                        <Insets left="10"/>
+                    </Label>
+                </HBox>
+                <AnchorPane VBox.vgrow="ALWAYS">
+                    <StackPane
+                            alignment="TOP_RIGHT"
+                            AnchorPane.bottomAnchor="0"
+                            AnchorPane.leftAnchor="10"
+                            AnchorPane.rightAnchor="10"
+                            AnchorPane.topAnchor="0"
+                    >
+                        <children>
+                            <TextArea
+                                    fx:id="reqJson"
+                                    AnchorPane.bottomAnchor="0"
+                                    AnchorPane.leftAnchor="10"
+                                    AnchorPane.rightAnchor="10"
+                                    AnchorPane.topAnchor="0"
+                                    editable="false"
+                            />
+                            <Button text="复制" mnemonicParsing="false" onAction="#copyValue" />
+
+                        </children>
+                    </StackPane>
+                </AnchorPane>
+            </VBox>
+        </children>
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="500" percentWidth="50" prefWidth="100" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="500" percentWidth="50" prefWidth="100" />
+        </columnConstraints>
+    </GridPane>
+</AnchorPane>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.metool.controller.ParameterController"
+            prefHeight="400.0" prefWidth="600.0">
+    <TextArea
+        fx:id="json"
+        promptText="请输入需要格式化的字符串"
+        editable="false"
+        AnchorPane.bottomAnchor="0"
+        AnchorPane.leftAnchor="0"
+        AnchorPane.rightAnchor="0"
+        AnchorPane.topAnchor="0"
+    />
+</AnchorPane>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Button?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.metool.controller.ScanningInterfaceController"
+            prefHeight="200.0" prefWidth="400.0"
+            stylesheets="@../css/scanning-interface.css"
+>
+
+    <top>
+        <HBox fx:id="titleBox" spacing="20">
+            <padding><Insets top="20" bottom="20" left="20" right="20" /></padding>
+        </HBox>
+    </top>
+    <center>
+        <ScrollPane fx:id="sp" >
+            <GridPane fx:id="gp" hgap="20" vgap="15" alignment="CENTER">
+                <padding><Insets top="30" bottom="20" left="20" right="20" /></padding>
+            </GridPane>
+        </ScrollPane>
+    </center>
+    <bottom>
+        <HBox spacing="20" alignment="CENTER">
+            <padding><Insets top="20" bottom="20" left="20" right="20" /></padding>
+            <Button fx:id="cancelScanningBtn" text="取消扫描" />
+        </HBox>
+    </bottom>
+</BorderPane>
