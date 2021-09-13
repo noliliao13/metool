@@ -436,13 +436,6 @@ public class InterfaceToolController implements Initializable {
         interfacePath.setCellValueFactory(new PropertyValueFactory<InterfaceDetail,String>("path"));
         controllerClass.setCellValueFactory(new PropertyValueFactory<InterfaceDetail,String>("controller"));
         statusCB.setCellValueFactory(new PropertyValueFactory<InterfaceDetail,ComboBox>("statusCB"));
-//        status.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<InterfaceDetail,String>, ObservableValue>() {
-//            @Override
-//            public ObservableValue<String> call(TableColumn.CellDataFeatures<InterfaceDetail,String> param) {
-//                InterfaceDetail d = param.getValue();
-//                return new ReadOnlyObjectWrapper<String>(d.getStatus().equals("done") ? "已完成" : "未完成");
-//            }
-//        });
         reqDataType.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<InterfaceDetail,String>, ObservableValue>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<InterfaceDetail,String> param) {
@@ -468,6 +461,13 @@ public class InterfaceToolController implements Initializable {
                         hBox.setSpacing(10);
                         hBox.getChildren().addAll(reqBtn,resBtn,pushBtn);
                         setGraphic(hBox);
+
+                        if(!entity.getIsReqFormData() && entity.getReqEntity() == null){
+                            reqBtn.setDisable(true);
+                        }
+                        if(entity.getResEntity() == null){
+                            reqBtn.setDisable(true);
+                        }
 
                         reqBtn.setOnAction(new EventHandler<ActionEvent>() {
                             @Override

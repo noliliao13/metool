@@ -801,8 +801,10 @@ public class LocalService {
             md.setPath(path);
             md.setType(method);
             md.setParameterTypeInfo(parameterTypeInfo);
+            //获取接口名称
             String des = getInterfaceDes(md,str);
             md.setTitle(des);
+            //判断接口是否废弃
             if(!getInterfaceDelete(md,str)){
                 result.add(md);
             }
@@ -814,7 +816,7 @@ public class LocalService {
         str = removeRemake(str);
         String s1 = md.getType().toLowerCase();
         String mapping = s1.substring(0,1).toUpperCase()+s1.substring(1)+"Mapping";
-        Matcher m1 = Pattern.compile("@"+mapping+"(\\s|\\(|\")"+md.getPath()+"(\\s|\\)|\")+(\\s|(@\\w+(\\(.*\\))*))*?@Deprecated").matcher(str);
+        Matcher m1 = Pattern.compile("@"+mapping+"(\\s|\\(|\")+"+md.getPath()+"(\\s|\\)|\")+(\\s|(@\\w+(\\(.*\\))*))*?@Deprecated").matcher(str);
         if (m1.find()){
             return true;
         }
@@ -829,7 +831,7 @@ public class LocalService {
         str = str.replaceAll("//[^\r\n]*+","");
         String s1 = md.getType().toLowerCase();
         String mapping = s1.substring(0,1).toUpperCase()+s1.substring(1)+"Mapping";
-        String p = "(/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*/)(\\s|[\r\n])(@.*|\\s|[\r\n])*?@"+mapping+"(\\s|\\(|\")"+md.getPath()+"(\\s|\\)|\")";
+        String p = "(/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*/)(\\s|[\r\n])(@.*|\\s|[\r\n])*?@"+mapping+"(\\s|\\(|\")+"+md.getPath()+"(\\s|\\)|\")+";
         Matcher m = Pattern.compile(p).matcher(str);
         if(m.find()){
             String st = m.group();
