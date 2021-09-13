@@ -10,10 +10,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Application extends javafx.application.Application {
-    public static Stage mainStage;
+    public static Stage mainStage = null;
 
     @Override
     public void start(Stage stage) throws IOException {
+        mainStage = stage;
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/logo.png")));
         Rectangle2D rectangle2D = Screen.getPrimary().getBounds();
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/view/index.fxml"));
@@ -21,7 +22,7 @@ public class Application extends javafx.application.Application {
         stage.setTitle("编程ME工具");
         stage.setScene(scene);
         stage.show();
-        mainStage = stage;
+
     }
 
     public static void main(String[] args) {

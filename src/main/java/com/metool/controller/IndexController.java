@@ -29,6 +29,7 @@ public class IndexController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<MenuEntity> mList = localService.getMenu();
+
         for (MenuEntity entity : mList) {
             Menu menu = new Menu(entity.getName());
             for (MenuEntity child : entity.getChildren()) {

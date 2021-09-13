@@ -74,8 +74,8 @@ public class ProgressStage {
         scene.setFill(null);
         stage.setScene(scene);
         int v = ad.length() * 8 +10;
-        if(v < 40){
-            v = 40;
+        if(v < 100){
+            v = 100;
         }
         stage.setWidth(v);
         stage.setHeight(v);
@@ -84,9 +84,9 @@ public class ProgressStage {
         double y = parent.getY()+(parent.getHeight()-stage.getHeight())/2;
         stage.setX(x);
         stage.setY(y);
-
+//
         work.setOnCancelled(e -> stage.close());
-        work.setOnScheduled(e -> stage.close());
+        work.setOnSucceeded(e -> stage.close());
     }
 
     private void initUI(Stage parent, Pane node) {
@@ -112,7 +112,7 @@ public class ProgressStage {
             stage.close();
             isEnd = true;
         });
-        work.setOnScheduled(e -> {
+        work.setOnSucceeded(e -> {
             stage.close();
             isEnd = true;
         });

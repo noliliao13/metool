@@ -123,7 +123,6 @@ public class LocalService {
 
     public List<InterfaceDetail> getAllInterface(List<String> controllerFiles, List<List<Node>> gpItems, ScrollPane sp){
         List<InterfaceDetail> result = new ArrayList<>();
-
         try {
             if(CollectionUtil.isEmpty(controllerFiles)){
                 return result;
@@ -214,7 +213,7 @@ public class LocalService {
             if(StringUtils.isNotBlank(parameterTypeInfo.getResType())){
                 entity.setType(parameterTypeInfo.getResType());
                 InterfaceParameterBody resEntity = getParameterJson(entity,parameterTypeInfo);
-                interfaceDetail.setReqEntity(resEntity);
+                interfaceDetail.setResEntity(resEntity);
                 interfaceDetail.setIsResList(parameterTypeInfo.getIsResList());
             }
             result.add(interfaceDetail);
@@ -479,7 +478,7 @@ public class LocalService {
             str = getNblStr(str,className,type);
         }else if(StringUtils.isNotBlank(type) && type.contains(".")){
             //替换内部类属性
-            str = getNblStr(str,className,type.split(".")[1]);
+            str = getNblStr(str,className,type.split("\\.")[1]);
         }else {
             //删除内部类属性
             str = removeNblInfo(str,className);
@@ -925,9 +924,9 @@ public class LocalService {
             reqType = reqType.replaceAll("\\s+|[\r\n]","").replaceAll("\\<","-").replaceAll("\\>","");
             findPathAndCache(key,str,reqType);
         }
-        if(StringUtils.isNotBlank(reqType)){
+        if(StringUtils.isNotBlank(resType)){
             resType = resType.replaceAll("\\s+|[\r\n]","").replaceAll("\\<","-").replaceAll("\\>","");
-            findPathAndCache(key,str,reqType);
+            findPathAndCache(key,str,resType);
         }
         result.setReqType(reqType);
         result.setResType(resType);

@@ -171,6 +171,9 @@ public class InterfaceToolController implements Initializable {
         filterController.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if(newValue.intValue() < 0){
+                    return;
+                }
                 String controller = filterController.getItems().get(newValue.intValue()).toString();
                 if (controller.equals("请选择CONTROLLER")){
                     interfaceList.setItems(cacheInterfaceList);
@@ -190,6 +193,7 @@ public class InterfaceToolController implements Initializable {
                 }
             }
         });
+
     }
 
     private void initCats() {
@@ -200,9 +204,11 @@ public class InterfaceToolController implements Initializable {
                 cats.clear();
                 cats.addAll(list);
                 Platform.runLater(()->{
-                    list.add(0,new IdAndName(0,"请选择分类"));
-                    chooseInterfaceType.setItems(FXCollections.observableArrayList(list.stream().map(idAndName -> idAndName.getName()).collect(Collectors.toList())));
-                    chooseInterfaceType.setValue(list.get(0).getName());
+                    if(list != null){
+                        list.add(0,new IdAndName(0,"请选择分类"));
+                        chooseInterfaceType.setItems(FXCollections.observableArrayList(list.stream().map(idAndName -> idAndName.getName()).collect(Collectors.toList())));
+                        chooseInterfaceType.setValue(list.get(0).getName());
+                    }
                 });
                 return null;
             }
@@ -319,7 +325,10 @@ public class InterfaceToolController implements Initializable {
                                 item.setId(d.getId());
                                 item.setCatid(d.getCatid());
                                 item.setReqType(item.getIsReqFormData() ? 1 : 0);
-                                catName = yapiService.getCatById(item.getCatid(),cats).getName();
+                                IdAndName cat = yapiService.getCatById(item.getCatid(),cats);
+                                if(cat != null){
+                                    catName = cat.getName();
+                                }
                             }else{
                                 catName = "请选择分类";
                             }

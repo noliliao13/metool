@@ -3,8 +3,14 @@ package com.metool.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.metool.Application;
+import com.metool.comment.ProgressStage;
+import com.metool.entity.IdAndName;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,7 +28,9 @@ import org.pomo.toasterfx.model.ToastParameter;
 import org.pomo.toasterfx.model.impl.ToastTypes;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class JsonToolController implements Initializable {
     @FXML

@@ -38,7 +38,7 @@ public class YapiService {
     private Map<Integer,IdAndName> catMapId = new HashMap<>();
     private Map<String,IdAndName> catMapName = new HashMap<>();
 
-    public List<IdAndName> getInterfaceCatList(String baseUrl,String token){
+    public List<IdAndName> getInterfaceCatList(String baseUrl,String token) throws InterruptedException {
         if(StringUtils.isBlank(baseUrl) || StringUtils.isBlank(token)){
             return new ArrayList<>();
         }
