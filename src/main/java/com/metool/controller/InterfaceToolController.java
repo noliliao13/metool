@@ -302,10 +302,18 @@ public class InterfaceToolController implements Initializable {
                         batchOperationArea.setVisible(true);
                         batchOperationArea.setManaged(true);
                         Map<String, InterfaceDTO> interfaceMap = new HashMap<>();
+                        List<InterfaceDTO> interfaceList_ = null;
+                        try {
+                            interfaceList_ = yapiService.getAllInterfaceDetail(baseUrl,token);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
 
-                        yapiService.getAllInterfaceDetail(baseUrl,token).forEach(item ->{
-                            interfaceMap.put(item.getMethod()+ item.getPath(),item);
-                        });
+                        if(interfaceList_ != null){
+                            interfaceList_.forEach(item ->{
+                                interfaceMap.put(item.getMethod()+ item.getPath(),item);
+                            });
+                        }
                         scanningCount.setText("共扫描到 "+interfaceDetailList.size()+" 个接口");
                         List<String> catList = cats.stream().map(item -> item.getName()).collect(Collectors.toList());
                         catList.add(0,"请选择分类");
