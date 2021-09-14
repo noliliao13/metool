@@ -185,6 +185,9 @@ public class InterfaceToolController implements Initializable {
         filterInterfaceType.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if(newValue.intValue() < 0){
+                    return;
+                }
                 Object type = filterInterfaceType.getItems().get(newValue.intValue());
                 if (type.equals("所有分类")){
                     interfaceList.setItems(cacheInterfaceList);
@@ -337,11 +340,11 @@ public class InterfaceToolController implements Initializable {
                                 if(cat != null){
                                     catName = cat.getName();
                                 }
+                                item.getStatusCB().setValue(d.getStatus().equals("done") ? "已完成" : "未完成");
                             }else{
                                 catName = "请选择分类";
                             }
                             item.getTitleField().setText(item.getTitle());
-                            item.getStatusCB().setValue(item.getStatus().equals("done") ? "已完成" : "未完成");
                             item.getCatType().setValue(catName);
                             addInterfaceVO.setInterfaceDetail(item);
                             BeanUtil.copyProperties(item,addInterfaceVO);

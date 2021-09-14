@@ -4,7 +4,7 @@ public class ApiConstant {
 
     public static final String PROJECT_GET = "/api/project/get";
 
-    public static final String CAT_GET_ALL = "/api/interface/getCAtMenu";
+    public static final String CAT_GET_ALL = "/api/interface/getCatMenu";
 
     public static final String INTERFACE_GET = "/api/interface/get";
     public static final String INTERFACE_GET_ALL = "/api/interface/list";

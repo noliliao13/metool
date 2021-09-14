@@ -9,10 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.metool.constant.ApiConstant;
 import com.metool.constant.TypeEnum;
-import com.metool.entity.IdAndName;
-import com.metool.entity.InterfaceDetail;
-import com.metool.entity.InterfaceParameterBody;
-import com.metool.entity.ProjectInfo;
+import com.metool.entity.*;
 import com.metool.entity.dto.InterfaceDTO;
 import com.metool.entity.view.ReqItem;
 import com.metool.exception.CustomException;
@@ -76,8 +73,9 @@ public class YapiService {
             InterfaceParameterBody reqParameter = interfaceDetail.getReqEntity();
             InterfaceParameterBody resParameter = interfaceDetail.getResEntity();
             InterfaceDTO vo = new InterfaceDTO();
-            vo.setTitle(token);
+            vo.setToken(token);
             BeanUtil.copyProperties(interfaceDetail,vo);
+            vo.setStatus(vo.getStatus().equals("已完成") ? "done" : "undone");
             if(interfaceDetail.getIsReqFormData()){
                 vo.setReq_body_form(interfaceDetail.getFormDataItems().stream().map(item ->{
                     if(item.getType().equals("MultipartFile")){
@@ -89,12 +87,16 @@ public class YapiService {
                 }).collect(Collectors.toList()));
                 vo.setReq_headers(interfaceDetail.getRedHeaders());
                 vo.setReq_body_type("form");
+            }else{
+                vo.setReq_headers(Arrays.asList(new ReqHeader("Content-Type","application/json")));
             }
             vo.setReq_body_other(JSON.toJSONString(reqParameter));
             vo.setRes_body(JSON.toJSONString(resParameter));
+            String param = JSON.toJSONString(vo,getFilter());
+            log.info("param：{}",param);
             String result = HttpUtil.createPost(baseUrl+ApiConstant.INTERFACE_SAVE)
                     .header("Content-Type","application/json")
-                    .body(JSON.toJSONString(vo,getFilter()))
+                    .body(param)
                     .timeout(3000)
                     .execute().body();
             JSONObject json = JSONObject.parseObject(result);
@@ -242,7 +244,7 @@ public class YapiService {
             if(value instanceof List && ((List)value).size() == 0){
                 return false;
             }
-            if(value instanceof List && ((Set)value).size() == 0){
+            if(value instanceof Set && ((Set)value).size() == 0){
                 return false;
             }
             if(value instanceof String && StringUtils.isBlank(value.toString())){

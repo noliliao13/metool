@@ -25,7 +25,8 @@ public class InterfaceDTO {
     private Integer id;
     private String req_body_other;
     private String res_body;
-
+    private String status;
+    private Boolean switch_notice = true;
     private List<ReqHeader> req_headers = new ArrayList<>();
     private List<FormDataItem> req_body_form = new ArrayList<>();
 
