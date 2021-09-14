@@ -1,6 +1,7 @@
 package com.metool.comment;
 
 import javafx.concurrent.Task;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -68,17 +69,14 @@ public class ProgressStage {
         VBox vBox = new VBox();
         vBox.setSpacing(10);
         vBox.setBackground(Background.EMPTY);
+        vBox.setAlignment(Pos.CENTER);
         vBox.getChildren().addAll(indicator,adLbl);
 
         Scene scene = new Scene(vBox);
         scene.setFill(null);
         stage.setScene(scene);
-        int v = ad.length() * 8 +10;
-        if(v < 100){
-            v = 100;
-        }
-        stage.setWidth(v);
-        stage.setHeight(v);
+        stage.setWidth(80);
+        stage.setHeight(80);
 
         double x = parent.getX()+(parent.getWidth()-stage.getWidth())/2;
         double y = parent.getY()+(parent.getHeight()-stage.getHeight())/2;

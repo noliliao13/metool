@@ -55,7 +55,8 @@ public class YapiService {
         return list;
     }
 
-    public void pushApi(String baseUrl, String token, InterfaceDetail interfaceDetail){
+    public void pushApi(String baseUrl, String token, InterfaceDetail interfaceDetail) throws Exception {
+        Thread.sleep(3000);
         if(interfaceDetail.getCatid() == 0){
             ToastBarToasterService service = new ToastBarToasterService();
             service.initialize();

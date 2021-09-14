@@ -548,7 +548,7 @@ public class InterfaceToolController implements Initializable {
                         pushBtn.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent event) {
-                                ProgressStage.of(Application.mainStage, "发布中...", new Task<Void>() {
+                                ProgressStage.of(Application.mainStage, "发布中", new Task<Void>() {
                                     @Override
                                     protected Void call() throws Exception {
                                        try {
@@ -581,7 +581,7 @@ public class InterfaceToolController implements Initializable {
     }
 
     public void pushToYapi(ActionEvent event) throws IOException {
-        ProgressStage.of(Application.mainStage, "发布中...", new Task<Void>() {
+        ProgressStage.of(Application.mainStage, "发布中", new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 try {
