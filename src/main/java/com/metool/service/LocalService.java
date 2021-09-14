@@ -1016,7 +1016,7 @@ public class LocalService {
         String d = "//[^\r\n]*+";
         //去除多行注释
         String dd = "/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*/";
-        return str.replaceAll(d,"").replaceAll("dd","");
+        return str.replaceAll(d,"").replaceAll(dd,"");
     }
 
     private String getRootPath(String str) {

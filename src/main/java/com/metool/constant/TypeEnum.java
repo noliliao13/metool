@@ -8,6 +8,7 @@ public enum TypeEnum {
     ,LOCAL_DATA("LocalDate","string","2000-01-01")
     ,LOCAL_DATA_TIME("LocalDateTime","string","2000-01-01 00:00:00")
     ,BIG_DECIMAL("BigDecimal","number",0.0)
+    ,BOOLEAN("Boolean","boolean",false)
 
     ;
     private String javaType;

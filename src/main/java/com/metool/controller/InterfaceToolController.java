@@ -477,7 +477,7 @@ public class InterfaceToolController implements Initializable {
                             reqBtn.setDisable(true);
                         }
                         if(entity.getResEntity() == null){
-                            reqBtn.setDisable(true);
+                            resBtn.setDisable(true);
                         }
 
                         reqBtn.setOnAction(new EventHandler<ActionEvent>() {
